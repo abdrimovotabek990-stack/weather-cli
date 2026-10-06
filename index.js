@@ -32,6 +32,10 @@ const saveCity = async city => {
 const getForecast = async () => {
     try {
         const city = process.env.CITY ?? (await getKeyValue(TOKEN_DICTIONARY.city))
+        if (!city) {
+            printError('City is not set. Use -s [CITY]')
+            return
+        }
         const response = await getWeather(city)
         printWeather(response, getIcon(response.weather[0].icon))
     } catch (error) {
